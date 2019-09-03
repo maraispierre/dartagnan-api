@@ -1,11 +1,9 @@
 package marais.tk.dartsapi.controllers
 
+import marais.tk.dartsapi.entities.Room
 import marais.tk.dartsapi.services.RoomService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class RoomController {
@@ -17,10 +15,10 @@ class RoomController {
     fun findAll() = roomService.findAll()
 
     @GetMapping("/room")
-    fun findOne() = roomService.findOne()
+    fun findOne(@RequestParam() id: Long) = roomService.findOne(id)
 
     @PostMapping("/room")
-    fun addRoom() = roomService.addRoom()
+    fun addRoom(@RequestParam() room: Room) = roomService.addRoom(room)
 
     @PutMapping( "/room")
     fun addUser() = roomService.addUser()

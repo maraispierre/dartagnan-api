@@ -1,22 +1,23 @@
 package marais.tk.dartsapi.services
 
-import marais.tk.dartsapi.dtos.Player
-import marais.tk.dartsapi.dtos.Room
+import marais.tk.dartsapi.entities.Player
+import marais.tk.dartsapi.entities.Room
+import marais.tk.dartsapi.repositories.IRoomRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
 @Component
 class RoomService {
 
-    fun findAll() : List<Room> {
-        val roomFamily = Room(1, "Famille", listOf())
-        val roomFriends = Room(2, "Amis", listOf())
-        val rooms = listOf<Room>(roomFamily, roomFriends)
-        return rooms
-    }
+    @Autowired
+    lateinit var roomRepository: IRoomRepository
 
-    fun findOne() = Room(1, "Ma room", listOf(Player("Léa")))
+    fun findAll() : MutableIterable<Room> = roomRepository.findAll()
 
-    fun addRoom() = Room(1, "Ma room", listOf())
+    fun findOne(id: Long) = roomRepository.findById(id)
 
-    fun addUser() = Room(1, "Ma room", listOf())
+    fun addRoom(room: Room) = roomRepository.save(room)
+
+    fun addUser() = Room(1, "Ma room")
 }
