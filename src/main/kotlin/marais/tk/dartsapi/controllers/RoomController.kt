@@ -14,10 +14,10 @@ class RoomController {
     @GetMapping("/rooms")
     fun findAll() = roomService.findAll()
 
-    @GetMapping("/room")
-    fun findOne(@RequestParam() id: Long) = roomService.findOne(id)
+    @GetMapping("/room/{id}")
+    fun findOne(@PathVariable("id") id: Long) = roomService.findOne(id)
 
-    @PostMapping("/room")
+    @PostMapping("/room/{id}")
     fun addRoom(@RequestParam() room: Room) = roomService.addRoom(room)
 
     @PutMapping( "/room")
