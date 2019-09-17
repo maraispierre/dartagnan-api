@@ -1,6 +1,5 @@
 package marais.tk.dartsapi.controllers
 
-import marais.tk.dartsapi.entities.Room
 import marais.tk.dartsapi.services.RoomService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -14,12 +13,18 @@ class RoomController {
     @GetMapping("/rooms")
     fun findAll() = roomService.findAll()
 
-    @GetMapping("/room/{id}")
-    fun findOne(@PathVariable("id") id: Long) = roomService.findOne(id)
+    @GetMapping("/room/{idRoom}")
+    fun findOne(@PathVariable("idRoom") id: Long) = roomService.findOne(id)
 
-    @PostMapping("/room/{id}")
-    fun addRoom(@RequestParam() room: Room) = roomService.addRoom(room)
+    @DeleteMapping("/room/{idRoom}")
+    fun deleteOne(@PathVariable("idRoom") id: Long) = roomService.deleteOne(id)
 
-    @PutMapping( "/room")
-    fun addUser() = roomService.addUser()
+    @PostMapping("/room/{name}")
+    fun addRoom(@PathVariable("name") name: String) = roomService.addRoom(name)
+
+    @PostMapping( "/room/{idRoom}/player/{name}")
+    fun addUser(@PathVariable("idRoom") id: Long,  @PathVariable("name") name: String) = roomService.addUser(id, name)
+
+    @DeleteMapping( "/room/{idRoom}/player/{idPlayer}")
+    fun deleteUser(@PathVariable("idRoom") idRoom: Long, @PathVariable("idPlayer") idPlayer: Long) = roomService.deleteUser(idRoom = idRoom, idPlayer = idPlayer)
 }
