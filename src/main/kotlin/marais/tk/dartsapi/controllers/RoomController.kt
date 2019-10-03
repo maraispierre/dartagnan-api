@@ -19,11 +19,11 @@ class RoomController {
     @DeleteMapping("/room/{idRoom}")
     fun deleteOne(@PathVariable("idRoom") id: Long) = roomService.deleteOne(id)
 
-    @PostMapping("/room/{name}")
-    fun addRoom(@PathVariable("name") name: String) = roomService.addRoom(name)
+    @PostMapping("/room")
+    fun addRoom(@RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addRoom(it) }
 
-    @PostMapping( "/room/{idRoom}/player/{name}")
-    fun addUser(@PathVariable("idRoom") id: Long,  @PathVariable("name") name: String) = roomService.addUser(id, name)
+    @PostMapping( "/room/{idRoom}/player")
+    fun addUser(@PathVariable("idRoom") id: Long,  @RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addUser(id, it) }
 
     @DeleteMapping( "/room/{idRoom}/player/{idPlayer}")
     fun deleteUser(@PathVariable("idRoom") idRoom: Long, @PathVariable("idPlayer") idPlayer: Long) = roomService.deleteUser(idRoom = idRoom, idPlayer = idPlayer)
