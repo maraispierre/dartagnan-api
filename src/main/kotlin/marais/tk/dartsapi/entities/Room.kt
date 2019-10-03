@@ -15,6 +15,8 @@ data class Room (
 
         val name: String="",
 
+        val userId: String="",
+
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER, mappedBy = "room", orphanRemoval = true)
         @JsonManagedReference
         var players: MutableList<Player> = mutableListOf()

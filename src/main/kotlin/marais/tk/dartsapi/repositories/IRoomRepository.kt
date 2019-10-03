@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface IRoomRepository : CrudRepository<Room, Long>{
+
+    fun findByUserId(userId: String) : List<Room>
 }

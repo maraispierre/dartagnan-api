@@ -10,8 +10,8 @@ class RoomController {
     @Autowired
     lateinit var roomService: RoomService
 
-    @GetMapping("/rooms")
-    fun findAll() = roomService.findAll()
+    @GetMapping("/rooms/{userId}")
+    fun findAll(@PathVariable("userId") userId: String) = roomService.findAll(userId)
 
     @GetMapping("/room/{idRoom}")
     fun findOne(@PathVariable("idRoom") id: Long) = roomService.findOne(id)
@@ -20,7 +20,7 @@ class RoomController {
     fun deleteOne(@PathVariable("idRoom") id: Long) = roomService.deleteOne(id)
 
     @PostMapping("/room")
-    fun addRoom(@RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addRoom(it) }
+    fun addRoom(@RequestBody body: Map<String, String>) = body["name"]?.let { body["user_id"]?.let { it1 -> roomService.addRoom(it, it1) } }
 
     @PostMapping( "/room/{idRoom}/player")
     fun addUser(@PathVariable("idRoom") id: Long,  @RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addUser(id, it) }

@@ -16,7 +16,7 @@ class RoomService {
     @Autowired
     lateinit var playerRepository: IPlayerRepository
 
-    fun findAll() : MutableIterable<Room> = roomRepository.findAll()
+    fun findAll(userId: String) : List<Room> = roomRepository.findByUserId(userId)
 
     fun findOne(id: Long) : Room = roomRepository.findById(id).get()
 
@@ -26,7 +26,7 @@ class RoomService {
         return room
     }
 
-    fun addRoom(name: String) : Room = roomRepository.save(Room(name = name))
+    fun addRoom(name: String, userId: String) : Room = roomRepository.save(Room(name = name, userId = userId))
 
     fun addUser(id: Long, name: String) : Room {
         val room = roomRepository.findById(id).get()
