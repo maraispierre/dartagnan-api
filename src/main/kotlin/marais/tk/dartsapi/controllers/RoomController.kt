@@ -13,18 +13,18 @@ class RoomController {
     @GetMapping("/rooms/{userId}")
     fun findAll(@PathVariable("userId") userId: String) = roomService.findAll(userId)
 
-    @GetMapping("/room/{idRoom}")
-    fun findOne(@PathVariable("idRoom") id: Long) = roomService.findOne(id)
+    @GetMapping("/room/{roomId}")
+    fun findOne(@PathVariable("roomId") roomId: Long) = roomService.findOne(roomId)
 
-    @DeleteMapping("/room/{idRoom}")
-    fun deleteOne(@PathVariable("idRoom") id: Long) = roomService.deleteOne(id)
+    @DeleteMapping("/room/{roomId}")
+    fun deleteOne(@PathVariable("roomId") roomId: Long) = roomService.deleteOne(roomId)
 
     @PostMapping("/room")
-    fun addRoom(@RequestBody body: Map<String, String>) = body["name"]?.let { body["user_id"]?.let { it1 -> roomService.addRoom(it, it1) } }
+    fun addRoom(@RequestBody body: Map<String, String>) = body["name"]?.let { body["userId"]?.let { it1 -> roomService.addRoom(it, it1) } }
 
-    @PostMapping( "/room/{idRoom}/player")
-    fun addUser(@PathVariable("idRoom") id: Long,  @RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addUser(id, it) }
+    @PostMapping( "/room/{roomId}/player")
+    fun addUser(@PathVariable("roomId") roomId: Long,  @RequestBody body: Map<String, String>) = body["name"]?.let { roomService.addUser(roomId, it) }
 
-    @DeleteMapping( "/room/{idRoom}/player/{idPlayer}")
-    fun deleteUser(@PathVariable("idRoom") idRoom: Long, @PathVariable("idPlayer") idPlayer: Long) = roomService.deleteUser(idRoom = idRoom, idPlayer = idPlayer)
+    @DeleteMapping( "/room/{roomId}/player/{playerId}")
+    fun deleteUser(@PathVariable("roomId") roomId: Long, @PathVariable("playerId") playerId: Long) = roomService.deleteUser(roomId = roomId, playerId = playerId)
 }

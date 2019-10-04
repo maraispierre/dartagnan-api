@@ -8,12 +8,12 @@ import javax.persistence.*
 data class Player (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val player_id: Long = 0,
+        val playerId: Long = 0,
 
         val name: String = "",
 
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "room_id")
+        @JoinColumn(name = "roomId")
         @JsonBackReference
         val room: Room? = null
 )

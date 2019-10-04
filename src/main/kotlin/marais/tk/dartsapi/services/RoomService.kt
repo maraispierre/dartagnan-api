@@ -18,28 +18,28 @@ class RoomService {
 
     fun findAll(userId: String) : List<Room> = roomRepository.findByUserId(userId)
 
-    fun findOne(id: Long) : Room = roomRepository.findById(id).get()
+    fun findOne(roomId: Long) : Room = roomRepository.findById(roomId).get()
 
-    fun deleteOne(id: Long) : Room {
-        val room = roomRepository.findById(id).get()
-        roomRepository.deleteById(id)
+    fun deleteOne(roomId: Long) : Room {
+        val room = roomRepository.findById(roomId).get()
+        roomRepository.deleteById(roomId)
         return room
     }
 
     fun addRoom(name: String, userId: String) : Room = roomRepository.save(Room(name = name, userId = userId))
 
-    fun addUser(id: Long, name: String) : Room {
-        val room = roomRepository.findById(id).get()
+    fun addUser(roomId: Long, name: String) : Room {
+        val room = roomRepository.findById(roomId).get()
         val player = Player(name = name, room = room)
         playerRepository.save(player)
         room.players.add(player)
         return room
     }
 
-    fun deleteUser(idRoom: Long, idPlayer: Long) : Room {
-        val room = roomRepository.findById(idRoom).get()
-        playerRepository.deleteById(idPlayer)
-        room.players.removeIf { t -> t.player_id == idPlayer }
+    fun deleteUser(roomId: Long, playerId: Long) : Room {
+        val room = roomRepository.findById(roomId).get()
+        playerRepository.deleteById(playerId)
+        room.players.removeIf { t -> t.playerId == playerId }
         roomRepository.save(room)
         return room
     }
