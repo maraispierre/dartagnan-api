@@ -12,8 +12,8 @@ class RoomController {
     @Autowired
     lateinit var roomService: RoomService
 
-    @GetMapping("/rooms/{userId}")
-    fun findAll(@PathVariable("userId") userId: String) = roomService.findAll(userId)
+    @PostMapping("/rooms")
+    fun findAll(@RequestBody body: Map<String, String>) = body["userId"]?.let { roomService.findAll(it) }
 
     @GetMapping("/room/{roomId}")
     fun findOne(@PathVariable("roomId") roomId: Long) = roomService.findOne(roomId)
