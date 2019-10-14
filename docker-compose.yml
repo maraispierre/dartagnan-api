@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: dartsapi
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_PASSWORD: root
+      MYSQL_USER: user
+    volumes:
+      - /data/mariadb:/var/lib/mysql
+  back:
+    image: darts-api:latest
+    build: .
+    container_name: darts-api-srv
+    ports:
+      - 8080:8080
+    depends_on:
+      - mariadb

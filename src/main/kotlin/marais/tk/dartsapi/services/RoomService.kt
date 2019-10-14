@@ -1,22 +1,46 @@
 package marais.tk.dartsapi.services
 
-import marais.tk.dartsapi.dtos.Player
-import marais.tk.dartsapi.dtos.Room
+import marais.tk.dartsapi.entities.Player
+import marais.tk.dartsapi.entities.Room
+import marais.tk.dartsapi.repositories.IPlayerRepository
+import marais.tk.dartsapi.repositories.IRoomRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 class RoomService {
 
-    fun findAll() : List<Room> {
-        val roomFamily = Room(1, "Famille", listOf())
-        val roomFriends = Room(2, "Amis", listOf())
-        val rooms = listOf<Room>(roomFamily, roomFriends)
-        return rooms
+    @Autowired
+    lateinit var roomRepository: IRoomRepository
+
+    @Autowired
+    lateinit var playerRepository: IPlayerRepository
+
+    fun findAll(userId: String) : List<Room> = roomRepository.findByUserId(userId)
+
+    fun findOne(roomId: Long) : Room = roomRepository.findById(roomId).get()
+
+    fun deleteOne(roomId: Long) : Room {
+        val room = roomRepository.findById(roomId).get()
+        roomRepository.deleteById(roomId)
+        return room
     }
 
-    fun findOne() = Room(1, "Ma room", listOf(Player("Léa")))
+    fun addRoom(name: String, userId: String) : Room = roomRepository.save(Room(name = name, userId = userId))
 
-    fun addRoom() = Room(1, "Ma room", listOf())
+    fun addUser(roomId: Long, name: String) : Room {
+        val room = roomRepository.findById(roomId).get()
+        val player = Player(name = name, room = room)
+        playerRepository.save(player)
+        room.players.add(player)
+        return room
+    }
 
-    fun addUser() = Room(1, "Ma room", listOf())
+    fun deleteUser(roomId: Long, playerId: Long) : Room {
+        val room = roomRepository.findById(roomId).get()
+        playerRepository.deleteById(playerId)
+        room.players.removeIf { t -> t.playerId == playerId }
+        roomRepository.save(room)
+        return room
+    }
 }

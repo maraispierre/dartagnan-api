@@ -1,11 +1,10 @@
 package marais.tk.dartsapi.controllers
 
+import marais.tk.dartsapi.dtos.PlayerDto
+import marais.tk.dartsapi.dtos.RoomDto
 import marais.tk.dartsapi.services.RoomService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class RoomController {
@@ -13,15 +12,21 @@ class RoomController {
     @Autowired
     lateinit var roomService: RoomService
 
-    @GetMapping("/rooms")
-    fun findAll() = roomService.findAll()
+    @PostMapping("/rooms")
+    fun findAll(@RequestBody body: Map<String, String>) = body["userId"]?.let { roomService.findAll(it) }
 
-    @GetMapping("/room")
-    fun findOne() = roomService.findOne()
+    @GetMapping("/room/{roomId}")
+    fun findOne(@PathVariable("roomId") roomId: Long) = roomService.findOne(roomId)
+
+    @DeleteMapping("/room/{roomId}")
+    fun deleteOne(@PathVariable("roomId") roomId: Long) = roomService.deleteOne(roomId)
 
     @PostMapping("/room")
-    fun addRoom() = roomService.addRoom()
+    fun addRoom(@RequestBody roomDto: RoomDto) = roomService.addRoom(roomDto.name, roomDto.userId)
 
-    @PutMapping( "/room")
-    fun addUser() = roomService.addUser()
+    @PostMapping( "/room/{roomId}/player")
+    fun addUser(@PathVariable("roomId") roomId: Long,  @RequestBody playerDto: PlayerDto) =  roomService.addUser(roomId, playerDto.name)
+
+    @DeleteMapping( "/room/{roomId}/player/{playerId}")
+    fun deleteUser(@PathVariable("roomId") roomId: Long, @PathVariable("playerId") playerId: Long) = roomService.deleteUser(roomId = roomId, playerId = playerId)
 }

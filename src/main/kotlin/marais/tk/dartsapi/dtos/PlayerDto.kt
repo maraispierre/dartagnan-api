@@ -1,5 +1,5 @@
 package marais.tk.dartsapi.dtos
 
-data class Player (
+data class PlayerDto (
         val name: String
 )
