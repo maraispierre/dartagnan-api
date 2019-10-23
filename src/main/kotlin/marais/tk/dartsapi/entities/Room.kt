@@ -13,7 +13,7 @@ data class Room (
         @GeneratedValue(strategy = GenerationType.AUTO)
         val roomId: Long=0,
 
-        val name: String="",
+        var name: String="",
 
         val userId: String="",
 

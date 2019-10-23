@@ -20,6 +20,14 @@ class RoomService {
 
     fun findOne(roomId: Long) : Room = roomRepository.findById(roomId).get()
 
+    fun update(room: Room) : Room {
+        for(player in room.players) {
+            player.room = room
+            playerRepository.save(player)
+        }
+        return roomRepository.save(room)
+    }
+
     fun deleteOne(roomId: Long) : Room {
         val room = roomRepository.findById(roomId).get()
         roomRepository.deleteById(roomId)
