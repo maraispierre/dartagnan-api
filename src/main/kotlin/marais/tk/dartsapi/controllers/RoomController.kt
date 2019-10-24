@@ -2,6 +2,7 @@ package marais.tk.dartsapi.controllers
 
 import marais.tk.dartsapi.dtos.PlayerDto
 import marais.tk.dartsapi.dtos.RoomDto
+import marais.tk.dartsapi.entities.Room
 import marais.tk.dartsapi.services.RoomService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -17,6 +18,9 @@ class RoomController {
 
     @GetMapping("/room/{roomId}")
     fun findOne(@PathVariable("roomId") roomId: Long) = roomService.findOne(roomId)
+
+    @PutMapping("/room")
+    fun update(@RequestBody room: Room) = roomService.update(room)
 
     @DeleteMapping("/room/{roomId}")
     fun deleteOne(@PathVariable("roomId") roomId: Long) = roomService.deleteOne(roomId)

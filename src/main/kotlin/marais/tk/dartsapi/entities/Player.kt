@@ -12,8 +12,16 @@ data class Player (
 
         val name: String = "",
 
+        var numberGame: Long = 0,
+
+        var numberWonGame: Long = 0,
+
+        var totalScore: Long = 0,
+
+        var totalRounds: Long = 0,
+
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "roomId")
         @JsonBackReference
-        val room: Room? = null
+        var room: Room? = null
 )
